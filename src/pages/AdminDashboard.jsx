@@ -24,7 +24,7 @@ const AdminDashboard = () => {
                 const decoded = jwtDecode(token);
                 setUsername(decoded.sub);
 
-                const response = await api.get("/admin/stats");
+                const response = await api.get("api/admin/stats");
                 setStats(response.data);
 
             } catch (error) {

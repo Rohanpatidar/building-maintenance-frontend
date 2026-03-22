@@ -8,7 +8,7 @@ const SocietyDirectory = () => {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
     useEffect(() => {
-        api.get("/flats/directory")
+        api.get("api/flats/directory")
             .then(res => setMembers(res.data))
             .catch(err => console.error(err))
             .finally(() => setLoading(false));

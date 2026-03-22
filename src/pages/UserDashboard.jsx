@@ -37,13 +37,13 @@ const UserDashboard = () => {
                 setRole(decoded.role || decoded.authorities);
 
                 try {
-                    const flatRes = await api.get("/flats/my-flat");
+                    const flatRes = await api.get("api/flats/my-flat");
                     setMyFlat(flatRes.data);
                 } catch (flatErr) {
                     console.warn("Flat not assigned yet");
                 }
 
-                const billRes = await api.get(`/finance/bills/user/${userId}`);
+                const billRes = await api.get(`api/finance/bills/user/${userId}`);
                 setBills(billRes.data);
 
             } catch (err) {
@@ -62,7 +62,7 @@ const UserDashboard = () => {
 
         setPaying(true);
         try {
-            await api.put(`/finance/bills/${billId}/pay`);
+            await api.put(`api/finance/bills/${billId}/pay`);
             setBills(prevBills => prevBills.map(bill =>
                 bill.id === billId
                     ? { ...bill, status: "PAID", paymentDate: new Date().toISOString() }
@@ -79,7 +79,7 @@ const UserDashboard = () => {
     // ✅ NEW: Handle PDF Receipt Download
     const handleDownload = async (billId) => {
         try {
-            const response = await api.get(`/finance/bills/${billId}/download`, {
+            const response = await api.get(`api/finance/bills/${billId}/download`, {
                 responseType: 'blob',
             });
             const url = window.URL.createObjectURL(new Blob([response.data]));

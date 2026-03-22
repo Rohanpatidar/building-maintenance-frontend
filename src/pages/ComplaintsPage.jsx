@@ -27,7 +27,7 @@ const ComplaintsPage = () => {
 
     const fetchComplaints = async () => {
         try {
-            const res = await api.get("/complaints");
+            const res = await api.get("api/complaints");
             if (Array.isArray(res.data)) {
                 setComplaints(res.data);
                 calculateStats(res.data);
@@ -48,7 +48,7 @@ const ComplaintsPage = () => {
         if (!newComplaint.title || !newComplaint.description) return alert("Fill details");
         setLoading(true);
         try {
-            await api.post("/complaints", { title: newComplaint.title, description: newComplaint.description });
+            await api.post("api/complaints", { title: newComplaint.title, description: newComplaint.description });
             setNewComplaint({ title: "", description: "" });
             fetchComplaints();
             alert("✅ Complaint Submitted!");
@@ -59,7 +59,7 @@ const ComplaintsPage = () => {
     const handleResolve = async (id) => {
         if (!replyText) return;
         try {
-            await api.put(`/complaints/${id}/resolve`, { reply: replyText });
+            await api.put(`api/complaints/${id}/resolve`, { reply: replyText });
             setReplyText("");
             fetchComplaints();
         } catch (error) { alert("Failed to resolve"); }
@@ -67,7 +67,7 @@ const ComplaintsPage = () => {
 
     const handleRate = async (id, stars) => {
         try {
-            await api.put(`/complaints/${id}/rate`, { rating: stars });
+            await api.put(`api/complaints/${id}/rate`, { rating: stars });
             fetchComplaints();
         } catch (error) { alert("Failed to rate"); }
     };

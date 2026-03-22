@@ -11,7 +11,7 @@ const ManageExpenses = () => {
 
     const fetchData = async () => {
         try {
-            const res = await api.get("/finance/expenses");
+            const res = await api.get("api/finance/expenses");
             setExpenses(res.data);
         } catch (err) { console.error(err); }
         finally { setLoading(false); }
@@ -20,7 +20,7 @@ const ManageExpenses = () => {
     const handleAdd = async (e) => {
         e.preventDefault();
         try {
-            await api.post("/finance/expenses", formData);
+            await api.post("api/finance/expenses", formData);
             setMessage("✅ Expense recorded!");
             setFormData({ description: "", amount: "", category: "REPAIR" });
             fetchData();
@@ -29,7 +29,7 @@ const ManageExpenses = () => {
 
     const handleDelete = async (id) => {
         if (!window.confirm("Delete this record?")) return;
-        await api.delete(`/finance/expenses/${id}`);
+        await api.delete(`api/finance/expenses/${id}`);
         fetchData();
     };
 

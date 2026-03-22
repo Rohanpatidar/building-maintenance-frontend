@@ -18,7 +18,7 @@ const AdminFinance = () => {
 
     const fetchReport = async () => {
         try {
-            const res = await api.get("/finance/report");
+            const res = await api.get("api/finance/report");
             setReport(res.data);
         } catch (err) {
             console.error("Error fetching report");
@@ -29,7 +29,7 @@ const AdminFinance = () => {
     const handleGenerateBills = async (e) => {
         e.preventDefault();
         try {
-            const res = await api.post("/finance/bills/generate", billData);
+            const res = await api.post("api/finance/bills/generate", billData);
             setMessage(`✅ ${res.data}`);
             setBillData({ amount: "", month: "" }); // Reset
         } catch (error) {
@@ -41,7 +41,7 @@ const AdminFinance = () => {
     const handleAddExpense = async (e) => {
         e.preventDefault();
         try {
-            await api.post("/finance/expenses", expenseData);
+            await api.post("api/finance/expenses", expenseData);
             setMessage("✅ Expense Added Successfully!");
             setExpenseData({ description: "", amount: "" }); // Reset
             fetchReport(); // Update Balance immediately

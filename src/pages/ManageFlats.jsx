@@ -15,8 +15,8 @@ const ManageFlats = () => {
     const fetchData = async () => {
         try {
             const [flatsRes, usersRes] = await Promise.all([
-                api.get("/flats"),
-                api.get("/users")
+                api.get("api/flats"),
+                api.get("api/users")
             ]);
             setFlats(flatsRes.data);
             setUsers(usersRes.data);
@@ -31,7 +31,7 @@ const ManageFlats = () => {
             return;
         }
         try {
-            await api.put(`/flats/${selectedFlatId}/assign/${selectedUserId}`);
+            await api.put(`api/flats/${selectedFlatId}/assign/${selectedUserId}`);
             setMessage("✅ Flat Assigned Successfully!");
             setSelectedFlatId("");
             setSelectedUserId("");
@@ -45,7 +45,7 @@ const ManageFlats = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            await api.post("/flats", newFlat);
+            await api.post("api/flats", newFlat);
             setMessage("✅ Flat Added!");
             setNewFlat({ flatNumber: "", wing: "", floor: "" });
             fetchData();
@@ -54,7 +54,7 @@ const ManageFlats = () => {
     };
     const handleExportExcel = async () => {
         try {
-            const response = await api.get("/flats/export/excel", {
+            const response = await api.get("api/flats/export/excel", {
                 responseType: 'blob',
             });
             const url = window.URL.createObjectURL(new Blob([response.data]));

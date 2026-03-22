@@ -10,8 +10,8 @@ const BalanceSheet = () => {
         const fetchData = async () => {
             try {
                 const [summaryRes, expenseRes] = await Promise.all([
-                    api.get("/finance/balance-sheet"),
-                    api.get("/finance/expenses")
+                    api.get("api/finance/balance-sheet"),
+                    api.get("api/finance/expenses")
                 ]);
                 setSummary(summaryRes.data);
                 setExpenses(expenseRes.data);

@@ -17,7 +17,7 @@ const PaymentTrackerPage = () => {
             // Ensure the token is present (if your axiosConfig doesn't do it automatically)
             const token = localStorage.getItem("token");
 
-            const res = await api.get("/finance/bills", {
+            const res = await api.get("api/finance/bills", {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

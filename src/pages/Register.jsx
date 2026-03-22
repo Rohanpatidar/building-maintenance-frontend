@@ -24,7 +24,7 @@ const Register = () => {
 
         try {
             // Send data to backend
-            await api.post("/users/register", formData);
+            await api.post("api/users/register", formData);
             setMessage("✅ Registration Successful! Redirecting...");
             setTimeout(() => navigate("/login"), 2000);
         } catch (error) {

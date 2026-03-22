@@ -11,8 +11,8 @@ const FinancialReport = () => {
 
     const fetchData = async () => {
         try {
-            const reportRes = await api.get("/finance/report");
-            const expensesRes = await api.get("/finance/expenses");
+            const reportRes = await api.get("api/finance/report");
+            const expensesRes = await api.get("api/finance/expenses");
             setReport(reportRes.data);
             setExpenses(expensesRes.data);
         } catch (error) {

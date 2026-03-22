@@ -24,7 +24,7 @@ const NoticeBoardPage = () => {
 
     const fetchNotices = async () => {
         try {
-            const response = await api.get("/notices");
+            const response = await api.get("api/notices");
             setNotices(Array.isArray(response.data) ? response.data : []);
         } catch (error) {
             console.error("Error loading notices");
@@ -36,7 +36,7 @@ const NoticeBoardPage = () => {
         if (!newNotice.title || !newNotice.content) return alert("Please fill all fields");
         setLoading(true);
         try {
-            await api.post("/notices", newNotice);
+            await api.post("api/notices", newNotice);
             setNewNotice({ title: "", content: "" });
             await fetchNotices();
         } catch (error) {
@@ -49,7 +49,7 @@ const NoticeBoardPage = () => {
     const handleDelete = async (id) => {
         if (!window.confirm("Are you sure?")) return;
         try {
-            await api.delete(`/notices/${id}`);
+            await api.delete(`api/notices/${id}`);
             fetchNotices();
         } catch (error) {
             console.error("Delete failed", error);

@@ -30,7 +30,7 @@ const Login = () => {
         e.preventDefault();
         setError("");
         try {
-            const response = await api.post("/users/login", { username, password });
+            const response = await api.post("api/users/login", { username, password });
             const token = response.data.token;
 
             localStorage.setItem("token", token);

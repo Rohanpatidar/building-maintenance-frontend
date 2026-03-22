@@ -14,7 +14,7 @@ const EditProfile = () => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const res = await api.get(`/users/id/${userId}`);
+                const res = await api.get(`api/users/id/${userId}`);
                 setFormData({
                     fullName: res.data.fullName,
                     email: res.data.email
@@ -30,7 +30,7 @@ const EditProfile = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            await api.put(`/users/${userId}`, formData);
+            await api.put(`api/users/${userId}`, formData);
             alert("Profile updated successfully! ✅");
             navigate(-1);
         } catch (err) {

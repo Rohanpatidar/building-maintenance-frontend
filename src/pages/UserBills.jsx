@@ -25,7 +25,7 @@ const UserBills = () => {
                 const userId = localStorage.getItem("userId");
 
                 if (userId) {
-                    const res = await api.get(`/finance/bills/user/${userId}`);
+                    const res = await api.get(`api/finance/bills/user/${userId}`);
                     setBills(res.data);
                 }
             }
@@ -37,7 +37,7 @@ const UserBills = () => {
     const handlePayBill = async (billId) => {
         setLoading(true);
         try {
-            await api.put(`/finance/bills/${billId}/pay`);
+            await api.put(`api/finance/bills/${billId}/pay`);
             alert("✅ Payment Successful!");
             fetchMyBills(); // Refresh list
         } catch (error) {

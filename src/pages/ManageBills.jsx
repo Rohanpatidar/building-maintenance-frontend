@@ -27,7 +27,7 @@ const ManageBills = () => {
 
     const fetchData = async () => {
         try {
-            const billRes = await api.get("/finance/bills");
+            const billRes = await api.get("api/finance/bills");
             setBills(billRes.data);
         } catch (error) {
             console.error("Error loading data", error);
@@ -38,7 +38,7 @@ const ManageBills = () => {
 
     const fetchSettings = async () => {
         try {
-            const res = await api.get("/finance/settings");
+            const res = await api.get("api/finance/settings");
             setIsAutoEnabled(res.data.autoBillingEnabled);
         } catch (error) {
             console.error("Error loading settings", error);
@@ -49,7 +49,7 @@ const ManageBills = () => {
     const handleToggleAutoBilling = async () => {
         try {
             const newValue = !isAutoEnabled;
-            await api.put("/finance/settings/toggle-auto-billing", { enabled: newValue });
+            await api.put("api/finance/settings/toggle-auto-billing", { enabled: newValue });
             setIsAutoEnabled(newValue);
             setMessage(newValue ? "✅ Auto-Billing Enabled for 1st of every month" : "⚠️ Auto-Billing Disabled");
         } catch (err) {
@@ -65,7 +65,7 @@ const ManageBills = () => {
         }
 
         try {
-            const response = await api.post(`/finance/bills/generate?status=${targetStatus}`, {
+            const response = await api.post(`api/finance/bills/generate?status=${targetStatus}`, {
                 month: formData.month,
                 amount: parseFloat(formData.amount)
             });
@@ -88,7 +88,7 @@ const ManageBills = () => {
         }
 
         try {
-            await api.delete(`/finance/bills/${bill.id}`);
+            await api.delete(`api/finance/bills/${bill.id}`);
             setMessage("✅ Bill deleted successfully!");
             fetchData();
         } catch (error) {

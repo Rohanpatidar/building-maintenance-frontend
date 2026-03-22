@@ -15,7 +15,7 @@ const ForgotPassword = () => {
         if (!email) return alert("Please enter email first");
         setLoading(true);
         try {
-            await api.post(`/users/forgot-username?email=${email}`);
+            await api.post(`api/users/forgot-username?email=${email}`);
             alert("Username has been sent to your email! ✅");
         } catch (err) { alert("Email not found in our records."); }
         finally { setLoading(false); }
@@ -26,7 +26,7 @@ const ForgotPassword = () => {
         if (!email) return alert("Please enter email first");
         setLoading(true);
         try {
-            await api.post(`/users/forgot-password/request?email=${email}`);
+            await api.post(`api/users/forgot-password/request?email=${email}`);
             alert("OTP sent to your email! Check Inbox/Spam. 🔑");
             setStep(2);
         } catch (err) { alert("Error sending OTP. Verify your email."); }
@@ -37,7 +37,7 @@ const ForgotPassword = () => {
     const handleResetPassword = async () => {
         setLoading(true);
         try {
-            await api.post(`/users/forgot-password/reset?email=${email}&otp=${otp}&newPassword=${newPassword}`);
+            await api.post(`api/users/forgot-password/reset?email=${email}&otp=${otp}&newPassword=${newPassword}`);
             alert("Password Reset Successful! You can now Login. 🚀");
             navigate("/login");
         } catch (err) { alert("Invalid OTP or OTP Expired."); }
