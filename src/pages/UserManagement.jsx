@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import api from "../api/axiosConfig";
+
 
 const UserManagement = () => {
     const [users, setUsers] = useState([]);
@@ -11,7 +13,7 @@ const UserManagement = () => {
 
     const fetchUsers = async () => {
         try {
-            const res = await axios.get("http://localhost:8080/api/users", {
+            const res = await api.get("/api/users", {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setUsers(res.data);
@@ -23,7 +25,7 @@ const UserManagement = () => {
     const handlePromote = async (userId, userName) => {
         if (window.confirm(`Are you sure you want to make ${userName} an Admin?`)) {
             try {
-                await axios.put(`http://localhost:8080/api/users/${userId}/promote`, {}, {
+                await api.put(`/api/users/${userId}/promote`, {}, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 alert("User promoted successfully!");
