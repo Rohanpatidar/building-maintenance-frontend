@@ -4,37 +4,39 @@ import { jwtDecode } from "jwt-decode";
 const PrivateRoute = ({ children, roleRequired }) => {
     const token = localStorage.getItem("token");
 
-    // 1. If not logged in, go to Login
+    // 1. Agar token hi nahi hai, toh seedha Login pe bhej do (Sabse zaroori step)
     if (!token) {
-        return <Navigate to="/login" />;
+        return <Navigate to="/login" replace />;
     }
 
-    // 2. If logged in, check Role
-    if (roleRequired) {
-        try {
-            const decoded = jwtDecode(token);
-            const userRole = decoded.role; // Get the role from the token
+    try {
+        const decoded = jwtDecode(token);
+        const userRole = decoded.role; // Token se role nikala
 
-            // --- ADMIN CHECK ---
-            if (roleRequired === "ADMIN") {
-                // We check for BOTH 'ROLE_ADMIN' and 'ADMIN' to be safe
+        // 2. Agar koi specific role chahiye (e.g., ADMIN)
+        if (roleRequired) {
+            // Agar multiple roles allow karne hain (Array check)
+            if (Array.isArray(roleRequired)) {
+                const hasAccess = roleRequired.some(role =>
+                    userRole === role || userRole === `ROLE_${role}`
+                );
+                if (!hasAccess) return <Navigate to="/user-dashboard" replace />;
+            }
+            // Agar single role check karna hai (ADMIN string)
+            else if (roleRequired === "ADMIN") {
                 if (userRole !== "ROLE_ADMIN" && userRole !== "ADMIN") {
-                    // If they are not an Admin, send them to the User Dashboard
-                    return <Navigate to="/user-dashboard" />;
+                    return <Navigate to="/user-dashboard" replace />;
                 }
             }
-
-            // --- USER CHECK ---
-            // (Optional) usually we allow Admins to see User pages too, 
-            // so we don't strictly block access here unless you want to.
-
-        } catch (error) {
-            // If token is invalid or expired
-            localStorage.removeItem("token");
-            return <Navigate to="/login" />;
         }
+    } catch (error) {
+        // Token kharab hai ya expire ho gaya
+        console.error("Invalid Token", error);
+        localStorage.removeItem("token");
+        return <Navigate to="/login" replace />;
     }
 
+    // Sab sahi hai toh page dikhao
     return children;
 };
 

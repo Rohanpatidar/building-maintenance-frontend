@@ -11,67 +11,65 @@ import BalanceSheet from "./pages/BalanceSheet";
 import SocietyDirectory from "./pages/SocietyDirectory";
 import NoticeBoardPage from "./pages/NoticeBoardPage";
 import ComplaintsPage from "./pages/ComplaintsPage";
-import PaymentTrackerPage from "./pages/PaymentTrackerPage"
+import PaymentTrackerPage from "./pages/PaymentTrackerPage";
 import EditProfile from "./pages/EditProfile";
 import ForgotPassword from "./pages/ForgetPassword";
 import UserManagement from "./pages/UserManagement";
+
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* --- Public Routes --- */}
+        {/* --- Public Routes (No Login Required) --- */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/directory" element={<SocietyDirectory />} />
-        <Route path="/notices" element={<NoticeBoardPage />} />
-        <Route path="/complaints" element={<ComplaintsPage />} />
-        <Route path="/payment-tracker" element={<PaymentTrackerPage />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/admin/users" element={<UserManagement />} />
-        {/* --- Shared Routes (Both Admin & User can see) --- */}
-        <Route path="/balance-sheet" element={<BalanceSheet />} />
-        {/* This allows any logged-in person to edit their profile */}
-        <Route
-          path="/edit-profile"
-          element={
-            <PrivateRoute roleRequired={["ADMIN", "USER"]}>
-              <EditProfile />
-            </PrivateRoute>
-          }
-        />
 
-        {/* --- Admin Only Routes --- */}
+        {/* --- Admin Only Routes (Strictly Protected) --- */}
         <Route path="/admin-dashboard" element={
-          <PrivateRoute roleRequired="ADMIN">
-            <AdminDashboard />
-          </PrivateRoute>
+          <PrivateRoute roleRequired="ADMIN"><AdminDashboard /></PrivateRoute>
         } />
         <Route path="/manage-flats" element={
-          <PrivateRoute roleRequired="ADMIN">
-            <ManageFlats />
-          </PrivateRoute>
+          <PrivateRoute roleRequired="ADMIN"><ManageFlats /></PrivateRoute>
         } />
         <Route path="/manage-bills" element={
-          <PrivateRoute roleRequired="ADMIN">
-            <ManageBills />
-          </PrivateRoute>
+          <PrivateRoute roleRequired="ADMIN"><ManageBills /></PrivateRoute>
         } />
         <Route path="/manage-expenses" element={
-          <PrivateRoute roleRequired="ADMIN">
-            <ManageExpenses />
-          </PrivateRoute>
+          <PrivateRoute roleRequired="ADMIN"><ManageExpenses /></PrivateRoute>
+        } />
+        <Route path="/admin/users" element={
+          <PrivateRoute roleRequired="ADMIN"><UserManagement /></PrivateRoute>
         } />
 
         {/* --- User Only Routes --- */}
         <Route path="/user-dashboard" element={
-          <PrivateRoute roleRequired="USER">
-            <UserDashboard />
-          </PrivateRoute>
+          <PrivateRoute roleRequired="USER"><UserDashboard /></PrivateRoute>
         } />
 
-        {/* --- Default Redirect --- */}
-        <Route path="/" element={<Navigate to="/login" />} />
-        <Route path="*" element={<Navigate to="/login" />} />
+        {/* --- Shared Routes (Login Required for Both) --- */}
+        <Route path="/directory" element={
+          <PrivateRoute roleRequired={["ADMIN", "USER"]}><SocietyDirectory /></PrivateRoute>
+        } />
+        <Route path="/notices" element={
+          <PrivateRoute roleRequired={["ADMIN", "USER"]}><NoticeBoardPage /></PrivateRoute>
+        } />
+        <Route path="/complaints" element={
+          <PrivateRoute roleRequired={["ADMIN", "USER"]}><ComplaintsPage /></PrivateRoute>
+        } />
+        <Route path="/payment-tracker" element={
+          <PrivateRoute roleRequired={["ADMIN", "USER"]}><PaymentTrackerPage /></PrivateRoute>
+        } />
+        <Route path="/balance-sheet" element={
+          <PrivateRoute roleRequired={["ADMIN", "USER"]}><BalanceSheet /></PrivateRoute>
+        } />
+        <Route path="/edit-profile" element={
+          <PrivateRoute roleRequired={["ADMIN", "USER"]}><EditProfile /></PrivateRoute>
+        } />
+
+        {/* --- Fallback Redirects --- */}
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </BrowserRouter>
   );
